@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
+import cors from 'cors';
 /** импорт консоли для его корректной работы  */
 import console from 'console';
 import mongoose from 'mongoose';
@@ -18,6 +19,9 @@ dotenv.config();
 const { PORT = 3000, MONGODB_URI = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
 
 const app = express();
+
+// ! добавляем не настроенынй cors
+app.use(cors());
 
 app.use(cookieParser());
 
