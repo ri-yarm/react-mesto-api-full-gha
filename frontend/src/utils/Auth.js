@@ -1,4 +1,5 @@
-const BASE_URL = "http://localhost:3000";
+// const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://api.riyarm.nomoredomains.monster";
 
 const getResponseData = (res, about) => {
   return res.ok ? res.json() : Promise.reject(`${about}: ${res.status}`);

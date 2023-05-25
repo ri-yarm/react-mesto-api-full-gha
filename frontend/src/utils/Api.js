@@ -1,7 +1,8 @@
 import * as consts from './constants';
 
 const fetchConfig = {
-  api: 'http://localhost:3000',
+  // api: 'http://localhost:3000',
+  api: 'https://api.riyarm.nomoredomains.monster',
 };
 
 const getResponseData = (res, about) => {
