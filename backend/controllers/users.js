@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
-import { SECRET_KEY, SALT } from '../utils/constant.js';
+import { SALT } from '../utils/constant.js';
 import BadReqestError from '../utils/instanceOfErrors/badRequestError.js';
 import DuplicateError from '../utils/instanceOfErrors/duplicateError.js';
 import NotFoundError from '../utils/instanceOfErrors/notFoundError.js';
@@ -47,9 +47,7 @@ export const getUserMe = (req, res, next) => {
 
 /** Регистрация новго пользователя */
 export const createUser = (req, res, next) => {
-  const {
-    name, about, avatar, email, password,
-  } = req.body;
+  const { name, about, avatar, email, password } = req.body;
 
   bcrypt.hash(password, SALT).then((hash) => {
     User.create({
@@ -59,12 +57,14 @@ export const createUser = (req, res, next) => {
       email,
       password: hash,
     })
-      .then((user) => res.send({
-        name: user.name,
-        about: user.about,
-        avatar: user.avatar,
-        email: user.email,
-      }))
+      .then((user) =>
+        res.send({
+          name: user.name,
+          about: user.about,
+          avatar: user.avatar,
+          email: user.email,
+        }),
+      )
       .catch((err) => {
         // Вот этот хардкод ошибки 11000 меня злит, не нашёл инстанс ошибки
         if (err.code === 11000) {
@@ -92,9 +92,15 @@ export const login = (req, res, next) => {
 
   User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user.id }, SECRET_KEY, {
-        expiresIn: '7d',
-      });
+      const token = jwt.sign(
+        { _id: user.id },
+        process.env.NODE_ENV === 'production'
+          ? process.env.JWT_SECRET
+          : 'dev-secret',
+        {
+          expiresIn: '7d',
+        },
+      );
 
       /** Сохраняем тоkен в куки */
       // res.cookie('jwt', token, { maxAge: 3600000, httpOnly: true, sameSite:true });

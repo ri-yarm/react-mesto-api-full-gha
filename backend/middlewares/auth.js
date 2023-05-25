@@ -1,7 +1,6 @@
 /* eslint-disable func-names */
 import jwt from 'jsonwebtoken';
 import UnAuthorizedError from '../utils/instanceOfErrors/unAuthorizedError.js';
-import { SECRET_KEY } from '../utils/constant.js';
 
 export default function (req, res, next) {
   // const cookie = req.cookies.jwt
@@ -15,7 +14,12 @@ export default function (req, res, next) {
   let payload;
 
   try {
-    payload = jwt.verify(token, SECRET_KEY);
+    payload = jwt.verify(
+      token,
+      process.env.NODE_ENV === 'production'
+        ? process.env.JWT_SECRET
+        : 'dev-secret',
+    );
   } catch (err) {
     return next(new UnAuthorizedError('Необходима авторизация.'));
   }

@@ -12,6 +12,13 @@ const router = express.Router();
 
 router.use(requestLogger);
 
+// краш сервера
+router.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 router.post('/signup', signupJoi, createUser);
 router.post('/signin', loginJoi, login);
 
