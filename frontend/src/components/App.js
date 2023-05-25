@@ -1,34 +1,34 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 import {
   Routes,
   Route,
   Navigate,
   useLocation,
   useNavigate,
-} from "react-router-dom";
+} from 'react-router-dom';
 
-import Header from "./Header";
-import Main from "./Main";
-import Footer from "./Footer";
-import Login from "./Login";
-import Register from "./Register";
-import NotFound from "./NotFound";
+import Header from './Header';
+import Main from './Main';
+import Footer from './Footer';
+import Login from './Login';
+import Register from './Register';
+import NotFound from './NotFound';
 
-import Popup from "./Popups/Popup";
-import EditProfilePopup from "./Popups/EditProfilePopup";
-import EditAvatarPopup from "./Popups/EditAvatarPopup";
-import AddPlacePopup from "./Popups/AddPlacePopup";
-import DeleteCardPopup from "./Popups/DeleteCardPopup";
-import ImagePopup from "./Popups/ImagePopup";
-import InfoTooltip from "./Popups/InfoTooltip";
+import Popup from './Popups/Popup';
+import EditProfilePopup from './Popups/EditProfilePopup';
+import EditAvatarPopup from './Popups/EditAvatarPopup';
+import AddPlacePopup from './Popups/AddPlacePopup';
+import DeleteCardPopup from './Popups/DeleteCardPopup';
+import ImagePopup from './Popups/ImagePopup';
+import InfoTooltip from './Popups/InfoTooltip';
 
-import ProtectedRoute from "./hoc/ProtectedRoute";
-import PasswordEye from "./hoc/PasswordEye";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { CardContext } from "../contexts/CardContext";
+import ProtectedRoute from './hoc/ProtectedRoute';
+import PasswordEye from './hoc/PasswordEye';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { CardContext } from '../contexts/CardContext';
 
-import * as api from "../utils/Api";
-import * as auth from "../utils/Auth";
+import * as api from '../utils/Api';
+import * as auth from '../utils/Auth';
 
 function App() {
   const navigate = useNavigate();
@@ -83,15 +83,14 @@ function App() {
 
   /** обращение к апи. поиск лайка среди массива лайков карточки и его последущая смена на лайк/дизлайк */
   const handleCardClick = (card) => {
-    const isLiked = card.likes.some((like) => like._id === currentUser._id);
+    const isLiked = card.likes.some((like) => like === currentUser._id);
+    console.log(isLiked);
     api
       .changeLikeCardStatus(card._id, !isLiked)
       .then((cardLikes) =>
         setCards((state) =>
-          state.map(
-            (
-              handleLike //перебираем массив лайков конкретной карточки
-            ) => (handleLike._id === card._id ? cardLikes : handleLike)
+          state.map((handleLike) =>
+            handleLike._id === card._id ? cardLikes : handleLike
           )
         )
       )
@@ -164,14 +163,14 @@ function App() {
 
   /** Функция выхода из аккаунта*/
   const signOut = () => {
-    localStorage.removeItem("token");
-    navigate("sign-in", { replace: true });
+    localStorage.removeItem('token');
+    navigate('sign-in', { replace: true });
     setLoggedIn(false);
   };
 
   /** Проверяем токен  */
   const checkToken = () => {
-    const jwt = localStorage.getItem("token");
+    const jwt = localStorage.getItem('token');
     if (!jwt) {
       //если токен пустой то не делаем никакого запроса
       return;
@@ -179,8 +178,8 @@ function App() {
     auth
       .getMyEmail(jwt)
       .then((res) => {
-        handleLogin(res.data);
-        const url = location.state?.returnUrl || "/"; //если мы до этого хотели перейти на другую страницу, то после логина перейдём на неё
+        handleLogin({ email: res.email });
+        const url = location.state?.returnUrl || '/'; //если мы до этого хотели перейти на другую страницу, то после логина перейдём на неё
         navigate(url);
       })
       .catch(() => {

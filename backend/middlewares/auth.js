@@ -4,6 +4,7 @@ import UnAuthorizedError from '../utils/instanceOfErrors/unAuthorizedError.js';
 import { SECRET_KEY } from '../utils/constant.js';
 
 export default function (req, res, next) {
+  // const cookie = req.cookies.jwt
   const { authorization } = req.headers;
 
   if (!authorization || !authorization.startsWith('Bearer ')) {

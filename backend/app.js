@@ -28,7 +28,7 @@ app.use(cookieParser());
 /** Конфигурация лимитера  */
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100, // запросов с одного IP в течении поля "windowsMs"
+  max: 1000000000000, // запросов с одного IP в течении поля "windowsMs"
   standardHeaders: true, // Возврщает заголовок с инофрмацией лимита
   legacyHeaders: false, // Отключает референсный заголовок ответа библиотеки
 });

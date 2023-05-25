@@ -1,8 +1,8 @@
 import React from "react";
 
 const Card = ({ card, onCardClick, currentUser, onCardLike, onCardDelete }) => {
-  const isOwn = card.owner._id === currentUser;
-  const isLiked = card.likes.some(like => like._id === currentUser)
+  const isOwn = card.owner === currentUser;
+  const isLiked = card.likes.some(like => like === currentUser)
 
   /** функция перебравсывает пропсы в компонент imagePopup */
   const handleCardClick = () => {

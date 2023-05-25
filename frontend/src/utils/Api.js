@@ -1,75 +1,110 @@
-import * as consts from "./constants";
+import * as consts from './constants';
 
 const fetchConfig = {
-  api: "https://mesto.nomoreparties.co/v1/cohort-60",
-  headers: {
-    authorization: "1f745ad3-aa67-41eb-8e30-0cec0319d4b2",
-    "Content-Type": "application/json",
-  },
+  api: 'http://localhost:3000',
 };
 
 const getResponseData = (res, about) => {
   return res.ok ? res.json() : Promise.reject(`${about}: ${res.status}`);
 };
 
+const getToken = () => {
+  return localStorage.getItem('token');
+};
+
 export const getUserInfo = () => {
+  const token = getToken();
+
   return fetch(`${fetchConfig.api}/users/me`, {
-    headers: fetchConfig.headers,
+    headers: {
+      authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
   }).then((res) =>
-    getResponseData(res, "Данные о пользователе не загрузились")
+    getResponseData(res, 'Данные о пользователе не загрузились')
   );
 };
 
 export const setUserInfo = (data) => {
+  const token = getToken();
+
   return fetch(`${fetchConfig.api}/users/me`, {
-    method: "PATCH",
-    headers: fetchConfig.headers,
+    method: 'PATCH',
+    headers: {
+      authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({
       name: data.name,
       about: data.about,
     }),
   }).then((res) =>
-    getResponseData(res, "Данные о пользователе не отправились!")
+    getResponseData(res, 'Данные о пользователе не отправились!')
   );
 };
 
 export const setNewAvatar = (data) => {
+  const token = getToken();
+
   return fetch(`${fetchConfig.api}/users/me/avatar`, {
-    method: "PATCH",
-    headers: fetchConfig.headers,
+    method: 'PATCH',
+    headers: {
+      authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({
       avatar: data.avatar,
     }),
-  }).then((res) => getResponseData(res, "Новый аватар не сохранён!"));
+  }).then((res) => getResponseData(res, 'Новый аватар не сохранён!'));
 };
 
 export const getDefaultCard = () => {
+  const token = getToken();
+
   return fetch(`${fetchConfig.api}/cards`, {
-    headers: fetchConfig.headers,
-  }).then((res) => getResponseData(res, "Не удалось обновить ленту!"));
+    headers: {
+      authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  }).then((res) => getResponseData(res, 'Не удалось обновить ленту!'));
 };
 
 export const postNewPhoto = (data) => {
+  const token = getToken();
+
   return fetch(`${fetchConfig.api}/cards`, {
-    method: "POST",
-    headers: fetchConfig.headers,
+    method: 'POST',
+    headers: {
+      authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({
       name: data.name,
       link: data.link,
     }),
-  }).then((res) => getResponseData(res, "Новый пост не загрузился!"));
+  }).then((res) => getResponseData(res, 'Новый пост не загрузился!'));
 };
 
 export const deleteCard = (card) => {
+  const token = getToken();
+
   return fetch(`${fetchConfig.api}/cards/${card}`, {
-    method: "DELETE",
-    headers: fetchConfig.headers,
-  }).then((res) => getResponseData(res, "Не удалось удалить карту!"));
+    method: 'DELETE',
+    headers: {
+      authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  }).then((res) => getResponseData(res, 'Не удалось удалить карту!'));
 };
 
 export const changeLikeCardStatus = (cardId, isLiked) => {
+  const token = getToken();
+
   return fetch(`${fetchConfig.api}/cards/${cardId}/likes`, {
-    method: `${isLiked ? "PUT" : "DELETE"}`,
-    headers: fetchConfig.headers,
-  }).then((res) => getResponseData(res, "Не удалось удалить лайк!"));
+    method: `${isLiked ? 'PUT' : 'DELETE'}`,
+    headers: {
+      authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  }).then((res) => getResponseData(res, 'Не удалось удалить лайк!'));
 };
