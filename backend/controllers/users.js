@@ -105,7 +105,13 @@ export const login = (req, res, next) => {
       /** Сохраняем тоkен в куки */
       // res.cookie('jwt', token, { maxAge: 3600000, httpOnly: true, sameSite:true });
 
-      return res.send({ token });
+      return res
+        .cookie('jwt', token, {
+          maxAge: 3600000,
+          httpOnly: true,
+          sameSite: true,
+        })
+        .send({ token });
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {

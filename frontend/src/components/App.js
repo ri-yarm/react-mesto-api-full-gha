@@ -163,14 +163,16 @@ function App() {
 
   /** Функция выхода из аккаунта*/
   const signOut = () => {
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
+    // ! НАДО ЕЩЁ УДАЛИТТ КУКИ. ПОСЛЕ РЕВЬЮ
+    localStorage.removeItem('userId');
     navigate('sign-in', { replace: true });
     setLoggedIn(false);
   };
 
   /** Проверяем токен  */
   const checkToken = () => {
-    const jwt = localStorage.getItem('token');
+    const jwt = localStorage.getItem('userId');
     if (!jwt) {
       //если токен пустой то не делаем никакого запроса
       return;

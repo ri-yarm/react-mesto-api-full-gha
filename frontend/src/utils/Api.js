@@ -9,16 +9,17 @@ const getResponseData = (res, about) => {
   return res.ok ? res.json() : Promise.reject(`${about}: ${res.status}`);
 };
 
-const getToken = () => {
+/* const getToken = () => {
   return localStorage.getItem('token');
-};
+}; */
 
 export const getUserInfo = () => {
-  const token = getToken();
+  // const token = getToken();
 
   return fetch(`${fetchConfig.api}/users/me`, {
+    credentials: "include",
     headers: {
-      authorization: `Bearer ${token}`,
+      // authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
   }).then((res) =>
@@ -27,12 +28,14 @@ export const getUserInfo = () => {
 };
 
 export const setUserInfo = (data) => {
-  const token = getToken();
+  // const token = getToken();
 
   return fetch(`${fetchConfig.api}/users/me`, {
     method: 'PATCH',
+    credentials: "include",
+
     headers: {
-      authorization: `Bearer ${token}`,
+      // authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -45,12 +48,13 @@ export const setUserInfo = (data) => {
 };
 
 export const setNewAvatar = (data) => {
-  const token = getToken();
+  // const token = getToken();
 
   return fetch(`${fetchConfig.api}/users/me/avatar`, {
     method: 'PATCH',
+    credentials: "include",
     headers: {
-      authorization: `Bearer ${token}`,
+      // authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -60,23 +64,25 @@ export const setNewAvatar = (data) => {
 };
 
 export const getDefaultCard = () => {
-  const token = getToken();
+  // const token = getToken();
 
   return fetch(`${fetchConfig.api}/cards`, {
+    credentials: "include",
     headers: {
-      authorization: `Bearer ${token}`,
+      // authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
   }).then((res) => getResponseData(res, 'Не удалось обновить ленту!'));
 };
 
 export const postNewPhoto = (data) => {
-  const token = getToken();
+  // const token = getToken();
 
   return fetch(`${fetchConfig.api}/cards`, {
     method: 'POST',
+    credentials: "include",
     headers: {
-      authorization: `Bearer ${token}`,
+      // authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -87,24 +93,26 @@ export const postNewPhoto = (data) => {
 };
 
 export const deleteCard = (card) => {
-  const token = getToken();
+  // const token = getToken();
 
   return fetch(`${fetchConfig.api}/cards/${card}`, {
     method: 'DELETE',
+    credentials: "include",
     headers: {
-      authorization: `Bearer ${token}`,
+      // authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
   }).then((res) => getResponseData(res, 'Не удалось удалить карту!'));
 };
 
 export const changeLikeCardStatus = (cardId, isLiked) => {
-  const token = getToken();
+  // const token = getToken();
 
   return fetch(`${fetchConfig.api}/cards/${cardId}/likes`, {
     method: `${isLiked ? 'PUT' : 'DELETE'}`,
+    credentials: "include",
     headers: {
-      authorization: `Bearer ${token}`,
+      // authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
   }).then((res) => getResponseData(res, 'Не удалось удалить лайк!'));

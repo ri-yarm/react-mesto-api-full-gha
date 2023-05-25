@@ -30,7 +30,8 @@ const Login = ({
       .authorize(values.password, values.email)
       .then((res) => {
         if (res.token) {
-          localStorage.setItem("token", res.token);
+          console.log(res);
+          localStorage.setItem("userId", res.token);
           // const url = location.state?.returnUrl || "/"; //если мы до этого хотели перейти на другую страницу, то после логина перейдём на неё
           handleLogin({email: values.email}) //так как токен пришёл значит, авторизация прошла успешно, можно поставить значение емейла из инпута
           navigate("/")

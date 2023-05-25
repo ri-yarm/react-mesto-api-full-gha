@@ -16,14 +16,13 @@ import centralErrors from './middlewares/centralErrors.js';
 dotenv.config();
 
 // .env удалил, пока пусть по дефолту работает
-const { PORT = 3000, MONGODB_URI = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
+const { PORT = 3000, MONGODB_URI = 'mongodb://127.0.0.1:27017/mestodb' } =
+  process.env;
 
 const app = express();
 
-// ! добавляем не настроенынй cors
-app.use(cors());
+app.use(cors({origin:['http://localhost:3001', 'https://riyarm.nomoredomains.monster'], credentials: true, maxAge: 60 }));
 
-app.use(cookieParser());
 
 /** Конфигурация лимитера  */
 const limiter = rateLimit({
@@ -43,6 +42,9 @@ app.use(helmet());
 
 /* парсер */
 app.use(express.json());
+
+// парсер куки
+app.use(cookieParser());
 
 app.use('/', router);
 
