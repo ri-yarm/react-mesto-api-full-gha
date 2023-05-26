@@ -34,7 +34,6 @@ export const getMyEmail = (jwt) => {
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      // Authorization: `Bearer ${jwt}`,
     },
   })
   .then((res) => getResponseData(res, ""))

@@ -173,10 +173,7 @@ function App() {
   /** Проверяем токен  */
   const checkToken = () => {
     const jwt = localStorage.getItem('userId');
-    if (!jwt) {
-      //если токен пустой то не делаем никакого запроса
-      return;
-    }
+    if (!jwt) return
     auth
       .getMyEmail(jwt)
       .then((res) => {
