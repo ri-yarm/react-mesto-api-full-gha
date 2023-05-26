@@ -47,7 +47,9 @@ export const getUserMe = (req, res, next) => {
 
 /** Регистрация новго пользователя */
 export const createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
+  const {
+    name, about, avatar, email, password,
+  } = req.body;
 
   bcrypt.hash(password, SALT).then((hash) => {
     User.create({
@@ -57,14 +59,12 @@ export const createUser = (req, res, next) => {
       email,
       password: hash,
     })
-      .then((user) =>
-        res.send({
-          name: user.name,
-          about: user.about,
-          avatar: user.avatar,
-          email: user.email,
-        }),
-      )
+      .then((user) => res.send({
+        name: user.name,
+        about: user.about,
+        avatar: user.avatar,
+        email: user.email,
+      }))
       .catch((err) => {
         // Вот этот хардкод ошибки 11000 меня злит, не нашёл инстанс ошибки
         if (err.code === 11000) {
