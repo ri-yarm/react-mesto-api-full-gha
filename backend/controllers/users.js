@@ -38,9 +38,6 @@ export const getUserMe = (req, res, next) => {
     if (err instanceof mongoose.Error.DocumentNotFoundError) {
       return next(new NotFoundError('Пользователь с указанным id не найден.'));
     }
-    if (err instanceof mongoose.Error.CastError) {
-      return next(new BadReqestError('Не валидные данные для поиска.'));
-    }
     return next(err);
   });
 };
@@ -133,9 +130,6 @@ export const updateProfile = (req, res, next) => {
     if (err instanceof mongoose.Error.DocumentNotFoundError) {
       return next(new NotFoundError('Пользователь с указанным id не найден.'));
     }
-    if (err instanceof mongoose.Error.CastError) {
-      return next(new BadReqestError('Не валидные данные для поиска.'));
-    }
     if (err instanceof mongoose.Error.ValidationError) {
       return next(
         new BadReqestError(
@@ -154,9 +148,6 @@ export const updateAvatar = (req, res, next) => {
   User.changeUserProfile(req.user._id, { avatar }, res).catch((err) => {
     if (err instanceof mongoose.Error.DocumentNotFoundError) {
       return next(new NotFoundError('Пользователь с указанным id не найден.'));
-    }
-    if (err instanceof mongoose.Error.CastError) {
-      return next(new BadReqestError('Не валидные данные для поиска.'));
     }
     if (err instanceof mongoose.Error.ValidationError) {
       return next(

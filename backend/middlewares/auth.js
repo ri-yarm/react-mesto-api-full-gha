@@ -4,13 +4,10 @@ import UnAuthorizedError from '../utils/instanceOfErrors/unAuthorizedError.js';
 
 export default function (req, res, next) {
   const cookie = req.cookies.jwt;
-  // const { authorization } = req.headers;
-
-  /* if (!authorization || !authorization.startsWith('Bearer ')) {
-    return next(new UnAuthorizedError('Необходима авторизация.'));
+  if (!cookie) {
+    return next(new UnAuthorizedError('Куки отсутвуют.'));
   }
 
-  const token = authorization.replace('Bearer ', ''); */
   let payload;
 
   try {
