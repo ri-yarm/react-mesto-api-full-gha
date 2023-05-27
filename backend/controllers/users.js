@@ -99,9 +99,6 @@ export const login = (req, res, next) => {
         },
       );
 
-      /** Сохраняем тоkен в куки */
-      // res.cookie('jwt', token, { maxAge: 3600000, httpOnly: true, sameSite:true });
-
       return res
         .cookie('jwt', token, {
           maxAge: 3600000,
