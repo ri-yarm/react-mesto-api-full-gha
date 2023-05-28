@@ -105,7 +105,8 @@ export const login = (req, res, next) => {
           httpOnly: true,
           sameSite: true,
         })
-        .send({ token });
+        .send({ message: 'Вы успешно получили куки.' });
+      // .send({ token });
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
